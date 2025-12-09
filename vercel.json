@@ -1,0 +1,19 @@
+{
+  "buildCommand": "cd website && npm run build",
+  "outputDirectory": "website/dist",
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "mongodb+srv://Aditya-Thukral:aditya231107@cluster0.tfaqhfe.mongodb.net/?appName=Cluster0"
+  }
+}

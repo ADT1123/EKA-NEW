@@ -79,7 +79,10 @@ const CheckoutPage = () => {
         notes: form.notes,
       };
 
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const { makeApiUrl, API_ENDPOINTS } = await import("../lib/api");
+      const apiUrl = makeApiUrl(API_ENDPOINTS.ORDERS);
+      
+      const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
