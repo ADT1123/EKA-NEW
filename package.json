@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "cd website && vite",
+    "dev:full": "concurrently \"npm run api:local\" \"npm run dev\"",
+    "api:local": "node api/local-server.js",
     "build": "cd website && vite build",
     "build:dev": "cd website && vite build --mode development",
     "lint": "eslint .",
@@ -19,6 +21,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^8.2.2",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",

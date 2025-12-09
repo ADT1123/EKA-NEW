@@ -41,10 +41,14 @@ Your project is now set up for **full-stack deployment on Vercel** with both fro
 
 ## Deployment Steps
 
-### 1. Set Up MongoDB Atlas (Cloud Database)
+### 1. Set Up MongoDB
 
-Since Vercel serverless functions are ephemeral, you need a cloud MongoDB:
+**Option A: Use Your Existing MongoDB Community Edition** (Recommended)
+- Your local MongoDB is already running
+- Connection: `mongodb://127.0.0.1:27017/eka-store`
+- No additional setup needed!
 
+**Option B: Use MongoDB Atlas (Cloud)** 
 1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 2. Create a free account and a cluster
 3. Get your connection string: `mongodb+srv://username:password@cluster.mongodb.net/eka-store`
@@ -67,15 +71,20 @@ vercel
 
 ### 3. Add Environment Variables
 
+**For Local Development:**
+Create a `.env.local` file in the root (not committed):
+```
+MONGODB_URI=mongodb://127.0.0.1:27017/eka-store
+```
+
+**For Vercel Production:**
 In Vercel Dashboard:
 1. Go to your project → Settings → Environment Variables
-2. Add:
-   - `MONGODB_URI` = `mongodb+srv://username:password@cluster.mongodb.net/eka-store`
+2. Add `MONGODB_URI`:
+   - If using MongoDB Community (local, not accessible from Vercel): Use MongoDB Atlas instead
+   - If using MongoDB Atlas: `mongodb+srv://username:password@cluster.mongodb.net/eka-store`
 
-Alternatively, create a `.env.local` file (not committed):
-```
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/eka-store
-```
+⚠️ **Note:** Vercel serverless functions cannot reach your local MongoDB. You must use MongoDB Atlas for production.
 
 ### 4. Verify Deployment
 
@@ -92,28 +101,55 @@ curl -X POST https://your-site.vercel.app/api/orders \
 
 ## Development Locally
 
-### Run Frontend Only
+### Prerequisites
+- MongoDB Community Edition installed and running
+- Node.js v16+
+
+### Ensure MongoDB is Running
+```bash
+# Windows (if installed)
+# MongoDB should auto-start as a service
+
+# Check if running
+netstat -ano | findstr :27017
+```
+
+### Option 1: Run Frontend Only (No Backend)
 ```bash
 cd website
 npm run dev
 ```
-Runs on `http://localhost:5173`
+- Frontend runs on `http://localhost:5173`
+- API calls will fail (no backend)
 
-### Run Full Stack Locally
-You need the old backend running:
+### Option 2: Run Full Stack (Frontend + Backend)
 ```bash
-# Terminal 1: Backend
-cd backend
-npm start
-# Runs on http://localhost:5000
+# Install dependencies first
+npm install
 
-# Terminal 2: Frontend
-cd website
+# Terminal 1: Start local API server
+npm run api:local
+
+# Terminal 2: Start frontend
 npm run dev
-# Runs on http://localhost:5173
 ```
 
-The frontend will automatically detect it's in development and call `http://localhost:5000`.
+Or run both simultaneously:
+```bash
+npm run dev:full
+```
+
+The frontend will automatically detect it's in development and call `http://localhost:5000` API.
+
+### Available npm Scripts
+
+| Command | What it does |
+|---------|------------|
+| `npm run dev` | Frontend only (Vite dev server) |
+| `npm run api:local` | Backend only (Express server with MongoDB) |
+| `npm run dev:full` | Both frontend + backend together |
+| `npm run build` | Build frontend for production |
+| `npm run preview` | Preview production build locally |
 
 ## Important Notes
 
