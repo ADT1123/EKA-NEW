@@ -1,14 +1,19 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "eka-fullstack",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "cd website && vite",
     "build": "cd website && vite build",
     "build:dev": "cd website && vite build --mode development",
     "lint": "eslint .",
-    "preview": "cd website && vite preview"
+    "preview": "cd website && vite preview",
+    "vercel-build": "cd website && npm install && npm run build"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
